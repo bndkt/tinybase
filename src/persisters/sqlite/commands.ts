@@ -293,7 +293,7 @@ const upsert = async (
   args: any[],
 ) =>
   await cmd(
-    'INSERT INTO' +
+    'INSERT OR REPLACE INTO' +
       escapeId(tableName) +
       '(' +
       escapeId(rowIdColumnName) +
@@ -310,7 +310,7 @@ const upsert = async (
           size(args) / (size(changingColumnNames) + 1),
         ),
         1,
-      ) +
+      ) /* +
       'ON CONFLICT(' +
       escapeId(rowIdColumnName) +
       ')DO UPDATE SET' +
@@ -321,7 +321,7 @@ const upsert = async (
             escapeId(columnName) + '=excluded.' + escapeId(columnName),
         ),
         COMMA,
-      ),
+      )*/,
     args,
   );
 
