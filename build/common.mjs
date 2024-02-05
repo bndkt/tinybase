@@ -54,6 +54,7 @@ const ALL_MODULES = [
   'persisters/persister-sqlite-wasm',
   'persisters/persister-cr-sqlite-wasm',
   'persisters/persister-electric-sql',
+  'persisters/persister-powersync',
   'persisters/persister-expo-sqlite',
   'persisters/persister-expo-sqlite-next',
   'persisters/persister-remote',
