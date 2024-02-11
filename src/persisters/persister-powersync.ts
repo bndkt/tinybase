@@ -46,4 +46,6 @@ export const createPowerSyncPersister = ((
     onSqlCommand,
     onIgnoredError,
     powerSync,
+    'getPowerSync',
+    true,
   ) as PowerSyncPersister) as typeof createPowerSyncPersisterDecl;

@@ -43,6 +43,7 @@ export const getCommandFunctions = (
   cmd: Cmd,
   managedTableNames: string[],
   onIgnoredError: ((error: any) => void) | undefined,
+  withoutOnConflict = false,
 ): [
   refreshSchema: () => Promise<Schema>,
   loadTable: (tableName: string, rowIdColumnName: string) => Promise<Table>,
@@ -52,7 +53,7 @@ export const getCommandFunctions = (
     table: Table | {[rowId: Id]: {[cellId: Id]: Cell | null} | null} | null,
     deleteEmptyColumns: boolean,
     deleteEmptyTable: boolean,
-    partial?: boolean,
+    partial?: boolean
   ) => Promise<void>,
   transaction: <Return>(actions: () => Promise<Return>) => Promise<Return>,
 ] => {
@@ -221,10 +222,14 @@ export const getCommandFunctions = (
                 [rowId],
               );
             } else if (!arrayIsEmpty(tableColumnNames)) {
-              await upsert(cmd, tableName, rowIdColumnName, objIds(row), [
-                rowId,
-                ...objValues(row),
-              ]);
+              await upsert(
+                cmd,
+                tableName,
+                rowIdColumnName,
+                objIds(row),
+                [rowId, ...objValues(row)],
+                withoutOnConflict,
+              );
             }
           }),
         );
@@ -291,7 +296,7 @@ const upsert = async (
   rowIdColumnName: string,
   changingColumnNames: string[],
   args: any[],
-  withoutOnConflict: boolean = false,
+  withoutOnConflict = false,
 ) =>
   await cmd(
     (withoutOnConflict ? 'INSERT OR REPLACE INTO' : 'INSERT INTO') +
