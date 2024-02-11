@@ -1,31 +1,20 @@
 /**
- * The persister-expo-sqlite module of the TinyBase project lets you save and
- * load Store data to and from a local Expo-SQLite database (in an appropriate
- * React Native environment).
- *
- * This module provides a Persister for the legacy version of Expo's
- * [SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite) library. This API
- * should be used if you are installing the `expo-sqlite` module.
- *
- * Note that TinyBase support for the modern version of Expo-SQLite
- * (`expo-sqlite-next`) is currently available in the persister-expo-sqlite-next
- * module.
- *
- * Note that this Persister is currently experimental as Expo themselves iterate
- * on the underlying database library API.
+ * The persister-powersync module of the TinyBase project lets you save and
+ * load Store data to and from a local SQLite database that is automaticaly
+ * synced using the PowerSync service.
  * @see Persisting Data guide
  * @packageDocumentation
  * @module persister-powersync
- * @since v4.0.3
+ * @since v4.6.9
  */
 /// persister-powersync
 /**
- * The ExpoSqlitePersister interface is a minor extension to the Persister
+ * The PowerSyncPersister interface is a minor extension to the Persister
  * interface.
  *
  * It simply provides an extra getDb method for accessing a reference to the
  * database instance the Store is being persisted to.
- * @since v4.3.14
+ * @since v4.6.9
  */
 /// PowerSyncPersister
 {
@@ -38,9 +27,9 @@
    * then gets the database instance back out again.
    *
    * ```js yolo
-   * const db = SQLite.openDatabase('my.db');
+   * const ps = usePowerSync();
    * const store = createStore().setTables({pets: {fido: {species: 'dog'}}});
-   * const persister = createExpoSqlitePersister(store, db, 'my_tinybase');
+   * const persister = createPowerSyncPersister(store, ps, 'my_tinybase');
    *
    * console.log(persister.getDb() == db);
    * // -> true
@@ -48,7 +37,7 @@
    * persister.destroy();
    * ```
    * @category Getter
-   * @since v4.3.14
+   * @since v4.6.9
    */
   /// PowerSyncPersister.getDb
 }
@@ -154,6 +143,6 @@
  * persister.destroy();
  * ```
  * @category Creation
- * @since v4.0.3
+ * @since v4.6.9
  */
 /// createPowerSyncPersister
