@@ -293,6 +293,7 @@
   },
   "peerDependencies": {
     "@automerge/automerge-repo": "^1.1.1",
+    "@journeyapps/powersync-sdk-common": "^1.2.0",
     "@sqlite.org/sqlite-wasm": "^3.45.1-build1",
     "@vlcn.io/crsqlite-wasm": "^0.16.0",
     "electric-sql": "^0.9.2",
@@ -307,6 +308,9 @@
   },
   "peerDependenciesMeta": {
     "@automerge/automerge-repo": {
+      "optional": true
+    },
+    "@journeyapps/powersync-sdk-common": {
       "optional": true
     },
     "@sqlite.org/sqlite-wasm": {
