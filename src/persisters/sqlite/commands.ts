@@ -71,8 +71,8 @@ export const getCommandFunctions = (
               'SELECT name ' +
                 FROM_PRAGMA_TABLE +
                 'list ' +
-                `WHERE schema='main' AND (type='table' OR type='view')` +
-                `AND name IN(` +
+                `WHERE schema='main'AND(type='table'OR type='view')` +
+                'AND name IN(' +
                 getPlaceholders(managedTableNames) +
                 `)ORDER BY name`,
               managedTableNames,
@@ -291,9 +291,10 @@ const upsert = async (
   rowIdColumnName: string,
   changingColumnNames: string[],
   args: any[],
+  withoutOnConflict: boolean = false,
 ) =>
   await cmd(
-    'INSERT OR REPLACE INTO' +
+    (withoutOnConflict ? 'INSERT OR REPLACE INTO' : 'INSERT INTO') +
       escapeId(tableName) +
       '(' +
       escapeId(rowIdColumnName) +
@@ -310,18 +311,20 @@ const upsert = async (
           size(args) / (size(changingColumnNames) + 1),
         ),
         1,
-      ) /* +
-      'ON CONFLICT(' +
-      escapeId(rowIdColumnName) +
-      ')DO UPDATE SET' +
-      arrayJoin(
-        arrayMap(
-          changingColumnNames,
-          (columnName) =>
-            escapeId(columnName) + '=excluded.' + escapeId(columnName),
-        ),
-        COMMA,
-      ) */,
+      ) +
+      (withoutOnConflict
+        ? EMPTY_STRING
+        : 'ON CONFLICT(' +
+          escapeId(rowIdColumnName) +
+          ')DO UPDATE SET' +
+          arrayJoin(
+            arrayMap(
+              changingColumnNames,
+              (columnName) =>
+                escapeId(columnName) + '=excluded.' + escapeId(columnName),
+            ),
+            COMMA,
+          )),
     args,
   );
 
