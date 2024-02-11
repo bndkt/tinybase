@@ -321,7 +321,7 @@ const upsert = async (
             escapeId(columnName) + '=excluded.' + escapeId(columnName),
         ),
         COMMA,
-      )*/,
+      ) */,
     args,
   );
 
